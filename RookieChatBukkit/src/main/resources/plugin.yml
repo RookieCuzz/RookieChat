@@ -1,0 +1,9 @@
+name: RookieChatBukkit
+version: '${version}'
+main: com.cuzz.rookiechatbukkit.RookieChatBukkit
+api-version: '1.20'
+depend:
+  - AfyBroker
+load: STARTUP
+commands:
+  msg:

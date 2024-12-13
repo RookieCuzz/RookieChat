@@ -1,0 +1,38 @@
+
+repositories {
+    mavenCentral()
+    maven {
+        name = "spigotmc-repo"
+        url = "https://hub.spigotmc.org/nexus/content/repositories/snapshots/"
+    }
+    maven {
+        name = "sonatype"
+        url = "https://oss.sonatype.org/content/groups/public/"
+    }
+}
+
+dependencies {
+    compileOnly "org.spigotmc:spigot-api:1.20.1-R0.1-SNAPSHOT"
+    // Lombok，用于简化 Java 类的 Getter/Setter
+
+}
+
+java {
+    // 配置 common 模块的编译配置
+    withSourcesJar()
+}
+
+//// 配置 JAR 打包
+//jar {
+//    duplicatesStrategy = DuplicatesStrategy.EXCLUDE  // 选择适当的重复处理策略
+//    enabled = false
+//
+//    // 将 `src/main/resources` 和 `src/main/static` 目录中的文件添加到 JAR 包中
+//    from sourceSets.main.resources
+//
+//    // 解决重复的 plugin.yml 文件
+//    from('src/main/resources') {
+//        include 'plugin.yml'  // 确保只包含一次 plugin.yml 文件
+//        duplicatesStrategy = DuplicatesStrategy.EXCLUDE  // 选择适当的重复处理策略
+//    }
+//}

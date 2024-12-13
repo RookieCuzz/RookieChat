@@ -1,0 +1,4 @@
+name: RookieChatBroker
+version: '${version}'
+author: cuzz
+main: com.cuzz.serverplugin.RookieChatBroker

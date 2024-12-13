@@ -1,0 +1,46 @@
+
+repositories {
+    mavenCentral()
+    maven {
+        name = "spigotmc-repo"
+        url = "https://hub.spigotmc.org/nexus/content/repositories/snapshots/"
+    }
+    maven {
+        name = "sonatype"
+        url = "https://oss.sonatype.org/content/groups/public/"
+    }
+}
+version=1.0
+
+dependencies {
+    // 引入本地模块 'Common'，用于复用公共功能
+    implementation project(':Common')
+    compileOnly "org.spigotmc:spigot-api:1.20.1-R0.1-SNAPSHOT"
+    // 引入本地 jar 文件，路径指定为本地文件系统中的 afybroker-server-bootstrap-2.3-all.jar
+    compileOnly files("C:/Users/PC/Desktop/RookieChat/libs/afybroker-server-bootstrap-2.3-all.jar")
+}
+// 配置 Java 编译选项
+java {
+    sourceCompatibility = JavaVersion.VERSION_17
+    targetCompatibility = JavaVersion.VERSION_17
+}
+
+// 配置资源处理
+processResources {
+    // 替换资源文件中的占位符
+    filesMatching('**/*.properties') {
+        expand(project.properties)  // 将文件中的占位符替换为项目属性值
+    }
+}
+
+// 配置 JAR 任务
+jar {
+    enabled =true
+    // 让 JAR 包包括资源文件
+    from sourceSets.main.resources
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE  // 选择适当的重复处理策略
+    // 你可以在这里将额外的静态资源文件添加到 JAR 包中
+    from('src/main/static') {
+        into('static')  // 将文件放置到 JAR 包中的 `static` 目录
+    }
+}

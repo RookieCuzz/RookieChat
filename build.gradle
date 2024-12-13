@@ -1,0 +1,74 @@
+plugins {
+    id 'java-library'  // 只使用 'java-library' 插件
+}
+
+// 根项目的 build.gradle
+subprojects {
+    // 所有子项目都会继承这个配置
+    repositories {
+        mavenCentral()  // 所有子模块都可以使用 Maven Central 仓库
+    }
+
+    // 通用的插件和依赖
+    apply plugin: 'java'  // 假设所有子模块都使用 Java 插件
+
+    dependencies {
+        testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.0'
+        implementation 'org.projectlombok:lombok:1.18.28'
+        annotationProcessor 'org.projectlombok:lombok:1.18.28'
+    }
+    tasks.withType(JavaCompile) {
+        options.encoding = 'UTF-8'
+    }
+    sourceSets {
+        main {
+            // 将 common 模块的源码集成到服务模块中
+            java {
+                srcDir "$rootDir/Common/src/main/java"
+            }
+            resources {
+                srcDir "$rootDir/Common/src/main/resources"
+            }
+        }
+    }
+
+    // 禁用子项目的 JAR 任务（默认情况下不生成 JAR）
+    tasks.withType(Jar).configureEach {
+        enabled = false
+    }
+
+    // 为特定子项目启用 JAR 任务
+    if (project.name == 'RookieChatBukkit'|| project.name == 'ServerPlugin') {
+        tasks.withType(Jar).configureEach {
+            enabled = true  // 仅为 'ServerPlugin' 启用 JAR 任务
+            archiveBaseName.set(project.name)
+            archiveVersion.set('1.0.0')
+        }
+    }
+
+    // 配置 Java 编译选项
+    java {
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
+    }
+}
+
+
+
+// 根项目的仓库配置
+repositories {
+    mavenCentral()
+    maven {
+        name = "spigotmc-repo"
+        url = "https://hub.spigotmc.org/nexus/content/repositories/snapshots/"
+    }
+    maven {
+        name = "sonatype"
+        url = "https://oss.sonatype.org/content/groups/public/"
+    }
+}
+
+tasks.withType(Jar).configureEach {
+    enabled = false  // 仅为 'ServerPlugin' 启用 JAR 任务
+}
+

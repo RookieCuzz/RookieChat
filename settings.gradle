@@ -1,0 +1,6 @@
+rootProject.name = 'RookieChat'
+// 包含子项目
+include ':Common' , ':RookieChatBroker', ':RookieChatBukkit'  // 正确的语法
+
+
+
